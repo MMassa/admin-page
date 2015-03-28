@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+
+<HTML ng-app='app'>
+
+<HEAD>
+	<meta charset='utf-8'> 
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" href="../../css/bootstrap.min.css">
+	
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<script src="//code.angularjs.org/1.2.9/angular.min.js"></script>
+	<script src="//code.angularjs.org/1.2.9/angular-route.min.js"></script>
+	<script src="/js/login.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	
+	<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+</HEAD>
+
+<BODY>
+	
+	<div class="navbar navbar-default" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href>Mão na Massa</a>
+			</div>
+		</div>
+	</div>
+	
+	<div class='container'>
+		<div class="page-header text-center">
+			<h2>Mão na Massa CMS</h2>
+		</div>
+		<div class='row'>
+			<div class='col-md-4 col-md-offset-4' ng-controller = 'loginController'>
+				<form role='form'>
+					<div class='form-group'>
+						<label for='username'>Email</label>
+						<input type='email' class='form-control' id='username' placeholder='User name' ng-model='user.email'>
+					</div>
+					<div class='form-group'>
+						<label for='userPassword'>Password</label>
+						<input type='password' class='form-control' id='userPassword' placeholder='Password' ng-model='user.password'>
+					</div>
+					<div class='form-group'>
+						<button type='submit' class='btn btn-default' ng-click='login()'>Login</button>
+					</div>
+				</form>
+				<div ng-show = 'showError' class='alert alert-danger'>
+					<strong>Error: </strong>{{errorMessage}}
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+</BODY>
+</HTML>
+
+
+
+
+
+
+

@@ -1,0 +1,128 @@
+
+		<div class="pages" id="admin">
+			<div class="container">
+				<div class="page-header">
+					<h3>Area Administrativa</h3>
+				</div>
+				<div class="row">
+					<div class='col-md-7'>
+						<accordion>
+							<accordion-group heading='Usuários'>
+								<table class='table table-striped table-condensed'>
+									<thead>
+										<tr>
+											<th>Nome</th>
+											<th>Login</th>
+											<th>Instituição</th>
+											<th>Online</th>
+											<th>Admin</th>
+											<th>&nbsp</th>
+											<th>&nbsp</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat = 'user in usersList'>
+											<td>{{user.firstName + ' ' + user.lastName}}</td>
+											<td>{{user.email}}</td>
+											<td><a href="#/ngo/{{ngo._id}}">{{ngo.name}}</a></td>
+											<td><span tooltip="{{'Last login: '+(user.lastLoginDate | date:'dd/MM/yyyy HH:mm')}}" class='label' ng-class="user.isOnline? 'label-success': 'label-default'">{{user.isOnline?'Online': 'Offline'}}</span></td>
+											<td>{{user.isAdmin?'Admin':'' }}</td>
+											<td><a href ng-click='resetUserPassword(user.id, user.name)'>reset password</a></td>
+											<td><a href ng-click='editUser(user)'>edit</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</accordion-group>
+							<accordion-group heading='Criar usuário'>
+								<form role='form'>
+									<div class='form-group'>
+										<label for='username'>Nome</label>
+										<input type='text' class='form-control' id='username' placeholder='Nome' ng-model='newUser.firstName'>
+									</div>
+									<div class='form-group'>
+										<label for='lastName'>Sobrenome</label>
+										<input type='text' class='form-control' id='lastName' placeholder='Sobrenome' ng-model='newUser.lastName'>
+									</div>
+									<div class='form-group'>
+										<label for='team'>ONG</label>
+										<select class="form-control" id="team" ng-model="newUser.ngo" ng-options="ngo._id as ngo.name for ngo in ngos">
+										</select>
+									</div>
+									<div class='form-group'>
+										<label for='email'>Email</label>
+										<input type='email' class='form-control' id='email' placeholder='Email' ng-model='newUser.email'>
+									</div>
+									<div class='form-group'>
+										<label for='phone'>Telefone</label>
+										<input type='text' class='form-control' id='phone' placeholder='Telefone' ng-model='newUser.phone'>
+									</div>
+									<div class='form-group'>
+										<label for='userPassword'>Senha</label>
+										<input type='password' class='form-control' id='userPassword' placeholder='Senha' ng-model='newUser.password'>
+									</div>
+									<div class='checkbox'>
+										<label>
+											<input type='checkbox' ng-model='newUser.isAdmin'>
+											Administrador?
+										</label>
+									</div>
+									<div class='form-group'>
+										<button  ng-disabled="isCreatingUser" type='submit' class='btn btn-default' ng-click='createNewUser()'>Criar</button>
+									</div>
+								</form>
+							</accordion-group>
+						</accordion>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/ng-template" id='editUserScreen.html'>
+			<div class='modal-body'>
+				<h3 class='modal-header'><strong>Edit User</strong></h3>
+				<form role='form' class='form-horizontal'>
+					<div class='form-group'>
+						<label for='userName' class='col-md-2 control-label'>Nome</label>
+						<div class='col-md-10'>
+							<input id='userName' class="form-control" ng-model='user.firstName' disabled>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label for='userName' class='col-md-2 control-label'>Sobrenome</label>
+						<div class='col-md-10'>
+							<input id='userName' class="form-control" ng-model='user.lastName' disabled>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label for='userMail' class='control-label col-md-2'>Email</label>
+						<div class='col-md-10'>
+							<input id='userMail' class="form-control" ng-model='user.email'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label for='userMail' class='control-label col-md-2'>Telefone</label>
+						<div class='col-md-10'>
+							<input id='userMail' class="form-control" ng-model='user.phone'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label for='userIsAdmin' class='col-md-2 control-label'>Admin</label>
+						<div class='col-md-10'>
+							<input id='userIsAdmin' type='checkbox' class="form-control" ng-model='user.isAdmin'>
+						</div>
+					</div>
+					<div class='form-group'>
+						<label for='userTeam' class='col-md-2 control-label'>Instituição</label>
+						<div class='col-md-10'>
+							<select id='userTeam' class="form-control" ng-model='user.ngo' ng-options="ngo._id as ngo.name for ngo in ngos">
+							</select>
+						</div>
+					</div>
+				</form>
+				<div class='modal-footer'>
+					<button type='button' class='btn btn-sm btn-default' ng-click='cancelEditUser()'>Cancel</button>
+					<button type='button' class='btn btn-sm btn-primary' ng-click='saveEditUser()'>Save</button>
+				</div>
+			</div>
+		</script>
+	

@@ -1,0 +1,286 @@
+
+<div class="pages" id="customer">
+	<div class="page-view">
+		<div class="row">
+			<div class='col-md-12'>
+				<div class="page-header">
+						<h2>{{ngo.name}} <br>
+							<small>{{ngo.status}}</small>
+						</h2>
+					<div class='row'>
+						<div class='col-md-6'>
+							<em><strong>Criada em: </strong>{{ngo.creationDate | date: 'dd/MM/yyyy HH:mm'}}</em><br>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="page-body">
+		<div class="container">
+				<div class="row">
+					<div class="col-md-10">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<div class="col-md-12">
+									<address class="text-left" style='text-transform: capitalize;'>
+										{{ngo.location.address?ngo.location.address + ', ':''}}
+										{{ngo.location.streetNumber}} <br>
+										{{ngo.location.addressComplement? ngo.location.addressComplement + ' - ':''}}
+										{{ngo.location.neighborhood? ngo.location.neighborhood + ' - ':''}}
+										{{ngo.location.city}}<br>
+										{{ngo.location.state? ngo.location.state + ', ':''}}
+										{{ngo.location.zip}}
+										{{ngo.location.country?' - ' + ngo.location.country:'' }} 
+									</address>
+                                    <strong>Site:</strong> <a href="http://{{ngo.website}}">{{ngo.website}}</a><br>
+                                    <strong>Telefone:</strong> {{ngo.phone | tel}}<br>
+									<strong>Email:</strong><a href='mailto:{{ngo.email}}'> {{ngo.email}}</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class='col-md-2'>
+						<div class='row' style='margin-bottom:2px' ng-show='user.isAdmin'>
+							<div class='col-md-12'>
+									<button class='btn btn-default btn-block'  ng-click='editNGO()' aria-label="Left Align">
+										<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+										<strong>Editar Instituição</strong>
+									</button>
+							</div>
+						</div>
+						
+						<div class='row' style='margin-bottom:2px'>
+							<div class='col-md-12'>
+									<button class='btn btn-default btn-block'  ng-click='addCause()' aria-label="Left Align">
+										<span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+										<strong>Criar Ação</strong>
+									</button>
+							</div>
+						</div>
+						
+						<div class='row' style='margin-bottom:2px' ng-show='false'>
+							<div class='col-md-12'>
+								<button class='btn btn-default btn-block' ng-click='addNewTicket()' aria-label="Left Align">
+									<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+									<strong>Adicionar Usuário</strong>
+								</button>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<div class="row" ng-show='false'> 
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<strong>Pessoas</strong>
+							</div>
+							<div class="panel-body">
+								<table class="table table-striped table-bordered table-condensed">
+									<thead>
+										<tr>
+											<th>Nome</th>
+											<th>Email</th>
+											<th>Ativo</th>
+											<th>Criado em:</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="person in customerContactList | filter:contactsFilter track by $index">
+											<td><a href='#/person/{{person._id}}'>{{person.firstName +' '+ person.lastName}}</a></td>
+											<td>{{person.role}}</td>
+											<td><a href='mailto:{{person.email}}'>{{person.email}}</a></td>
+											<td>{{person.phone | tel}}</td>
+											<td class='text-center'>{{person.howGood.grade}} - {{person.howGood.description}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='row'>
+					<div class='col-md-12'>
+						<h4 style='border-bottom:1px solid #ddd'>Ações</h4><br>
+						<div class='row'>
+							<div class='col-md-12'>
+								<div  class='panel panel-primary' ng-repeat="cause in causes">
+									<div class='panel-heading' >
+										<strong>&nbsp{{cause.title}}    </strong>
+										<div class='pull-right btn-group btn-group-xs'>
+											<button class='btn btn-default' role='button' ng-click="closeCause(cause._id)" ng-show="cause.isOpen?true:false">encerrar</button>
+										</div>
+									</div>
+									<div class='panel-body'>
+										<div class='row' > 
+											<div class='col-md-12' >
+												<h3 style='border-bottom: 1px solid #ddd'>Status: <small>{{cause.status}}</small></h3>
+											</div>
+										</div>
+										<div class='row' > 
+
+											<div class='col-md-5'>
+												<strong>Criada por: </strong>{{cause.creator.firstName+ ' '+cause.creator.lastName}} <strong> em: </strong>{{cause.creationDate | date:'dd/MM/yyyy HH:mm'}}<br>
+												<strong>Número de vagas: </strong>{{cause.maxVolunteers}} <br>
+												<strong>Horário: </strong>{{cause.time}} <br>
+												<strong>Local: </strong>{{cause.place}} <br>
+												
+											</div>
+											<div class='col-md-7'>
+												<p class='well' style="word-wrap: break-word; white-space: pre-wrap;"><strong>Descrição: </strong><br>{{cause.text}}</p>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>			
+		</div>
+	</div>
+</div>
+		
+<script type="text/ng-template" id="ediNgoScreen.html">
+		<div class="modal-header">
+			<h3 class="modal-Title">Editar Instituição</h3>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class='col-md-12'>
+					<form>
+						<div class='row'>
+							<fieldset>
+								<div class="form-group col-md-12">
+									<label class="col-md-4 text-right">Nome</label>
+									<div class="col-md-6">
+										<input class="form-control" type="text" id="customerName" ng-model="ngo.name"></input>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+						
+						<div class='row'>					
+							<div class="form-group col-md-12">
+								<label class="col-md-4 text-right" for="phone">Telefone</label>
+								<div class="col-md-6">
+									<input class="form-control" type="text" id="phone" ng-model="ngo.phone"></input>
+								</div>
+							</div>
+						</div>
+                        <div class='row'>
+                            <div class="form-group col-md-12">
+                                <label class="col-md-4 text-right" for="site">Site</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" placeholder="www.sitedaong.com.br" type="text" id="site" ng-model="ngo.website"></input>
+                                </div>
+                            </div>
+                        </div>
+						
+						<div class='row'>					
+							<div class="form-group col-md-12">
+								<label class="col-md-4 text-right" for="email">Email</label>
+								<div class="col-md-6">
+									<input class="form-control" type="text" id="email" ng-model="ngo.email"></input>
+								</div>
+							</div>
+						</div>
+						
+						<div class='row'>					
+							<div class="form-group col-md-12">
+								<strong class="col-md-4 text-right">Status</strong>
+								<div class="col-md-8 btn-group">
+									<label class="btn btn-default" ng-repeat='status in ngoStatus' ng-class="ngo.status==status?'btn-success':'btn-default'" 
+										ng-model="ngo.status" btn-radio="status"><strong>{{status}}</strong>
+									</label>
+								</div>
+							</div>
+						</div>
+					</form>
+				<form>
+					<div class='row'>					
+						<div class="form-group col-md-12">
+							<label class="col-md-4 text-right" for="customerLocation">Endereço</label>
+							<div class="col-md-6">
+								<input class="form-control" type="text" id="customerLocation" ng-model="ngo.location.address"></input>
+							</div>
+						</div>
+					</div>
+						
+					<div class='row'>					
+						<div class="form-group col-md-12">
+							<label class="col-md-4 text-right" for="customerStreetNumber">Nº</label>
+							<div class="col-md-6">
+								<input class="form-control" type="text" id="customerStreetNumber" ng-model="ngo.location.streetNumber"></input>
+							</div>
+						</div>
+					</div>
+					
+					<div class='row'>					
+						<div class="form-group col-md-12">
+							<label class="col-md-4 text-right" for="customerAddressComplement">Complemento</label>
+							<div class="col-md-6">
+								<input class="form-control" type="text" id="customerAddressComplement" ng-model="ngo.location.addressComplement"></input>
+							</div>
+						</div>
+					</div>
+					
+					<div class='row'>					
+						<div class="form-group col-md-12">
+							<label class="col-md-4 text-right" for="customerNeighborhood">Bairro</label>
+							<div class="col-md-6">
+								<input class="form-control" type="text" id="customerNeighborhood" ng-model="ngo.location.neighborhood"></input>
+							</div>
+						</div>
+					</div>
+					
+					<div class='row'>					
+						<div class="form-group col-md-12">
+							<label class="col-md-4 text-right" for="customerCity">Cidade</label>
+							<div class="col-md-6">
+								<input class="form-control" type="text" id="customerCity" ng-model="ngo.location.city"></input>
+							</div>
+						</div>
+					</div>
+					
+					<div class='row'>					
+						<div class="form-group col-md-12">
+							<label class="col-md-4 text-right" for="customerState">Estado</label>
+							<div class="col-md-6">
+								<input class="form-control" type="text" id="customerState" ng-model="ngo.location.state"></input>
+							</div>
+						</div>
+					</div>
+					
+					<div class='row'>					
+						<div class="form-group col-md-12">
+							<label class="col-md-4 text-right" for="customerCountry">País</label>
+							<div class="col-md-6">
+								<input class="form-control" type="text" id="customerCountry" ng-model="ngo.location.country"></input>
+							</div>
+						</div>
+					</div>
+					
+					<div class='row'>					
+						<div class="form-group col-md-12">
+							<label class="col-md-4 text-right" for="customerZip">CEP</label>
+							<div class="col-md-6">
+								<input class="form-control" type="text" id="customerZip" ng-model="ngo.location.zip"></input>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			</div>
+		<div class="modal-footer">
+			<form>
+				<fieldset>
+					<button type="button" class="btn" ng-click="cancelEditNgo()">Cancelar</button>
+					<button type="button" class="btn btn-primary" ng-disabled='isSaving' ng-click="saveEditNgo()">Salvar</button>
+				</fieldset>
+			</form>
+		</div>
+</script>
+

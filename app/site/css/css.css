@@ -1,0 +1,34 @@
+
+.info-box{
+	margin: 5px;
+	border-bottom: 1px solid #ddd;
+}
+
+.info-box .info-box-title
+{
+	font-weight: bold;
+	color: #999;
+}
+
+.break-words{
+	width='100%';
+	-ms-word-break: break-all;
+
+     /* Be VERY careful with this, breaks normal words wh_erever */
+     word-break: break-all;
+
+     /* Non standard for webkit */
+     word-break: break-word;
+
+-webkit-hyphens: auto;
+   -moz-hyphens: auto;
+        hyphens: auto;
+}
+
+.border-left{
+	border-left: 1px solid #ddd;
+}
+
+.border-right{
+	border-right: 1px solid #ddd;
+}

@@ -1,0 +1,41 @@
+<div class="pages">
+	<div class="container">
+			<div class="page-header">
+				<h3>Causes</h3>
+			</div>
+		<div class= "row">
+				<div class='col-md-12'>
+				<div  class='panel panel-primary' ng-repeat="cause in causes">
+					<div class='panel-heading' >
+						<strong>&nbsp{{cause.title}}    </strong>
+						<div class='pull-right btn-group btn-group-xs'>
+							<button class='btn btn-default' role='button' ng-click="cause = closeCause(cause._id)" ng-show="cause.isOpen?true:false">encerrar</button>
+						</div>
+					</div>
+					<div class='panel-body'>
+						<div class='row' > 
+							<div class='col-md-12' >
+								<h3 style='border-bottom: 1px solid #ddd'>Status: <small>{{cause.status}}</small></h3>
+							</div>
+						</div>
+						<div class='row' > 
+
+							<div class='col-md-5'>
+								<strong>Criada por: </strong>{{cause.creator.firstName+ ' '+cause.creator.lastName}} <strong> em: </strong>{{cause.creationDate | date:'dd/MM/yyyy HH:mm'}}<br>
+								<strong>Número de vagas: </strong>{{cause.maxVolunteers}} <br>
+								<strong>Horário: </strong>{{cause.time}} <br>
+								<strong>Local: </strong>{{cause.place}} <br>
+								
+							</div>
+							<div class='col-md-7'>
+								<p class='well' style="word-wrap: break-word; white-space: pre-wrap;"><strong>Descrição: </strong><br>{{cause.text}}</p>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

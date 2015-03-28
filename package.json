@@ -1,0 +1,20 @@
+{
+  "name": "Mao-na-Massa-Admin",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.3.0",
+    "mongoose": "~3.6.4",
+	"socket.io": "",
+	"passport": "",
+    "passport-local": "",
+	"cookie": "",
+	"cookie-parser": "",
+	"cookie-signature":"",
+	"body-parser": "",
+	"express-session": "",
+	"connect-flash": "",
+	"ejs": "",
+	"path": ""
+  }
+}

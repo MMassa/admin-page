@@ -1,0 +1,180 @@
+
+		<div class="pages" id="Customers">
+			<div class="container">
+					<div class="page-header">
+						<h3>ONG's <br><small>{{ngoCount}}</small></h3>
+					</div>
+					<div class="row">
+						<form class="form">
+							<fieldset>
+								<button type="button" class="btn btn-primary" ng-click="newNgo()"><strong>Cadastrar</strong></button>
+							</fieldset>
+						</form>
+					</div></br>
+				<div class= "container">
+					<div class="tab-content">
+						</br>
+						<table class="table table-hover table-striped">
+							<thead>
+								<tr>
+									<th>Nome</th>
+									<th>Telefone</th>
+									<th>Email</th>
+									<th>Cidade</th>
+									<th>Status</th>
+									<th>Data de Criação</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="ngo in ngos">
+									<td><a href="#/ngo/{{ngo._id}}">{{ngo.name}}</a></td>
+									<td>{{ngo.phone}}</td>
+									<td>{{ngo.email}}</td>
+									<td>{{ngo.location.city}}</td>
+									<td>{{ngo.status}}</td>
+									<td>{{ngo.creationDate | date: 'dd/MM/yyyy HH:mm'}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	<script type="text/ng-template" id="newNgoScreen.html">
+		<div class="modal-header">
+			<h3 class="modal-Title">Cadastrar Instituição</h3>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class='col-md-12'>
+					<form class="form-horizontal" role="form">
+						<div class='row'>
+							<div class="form-group col-md-12">
+								<label class="col-md-4 text-right">Nome</label>
+								<div class="col-md-6">
+									<input id="customerName" ng-model='ngo.name' class='form-control' type='text'>
+									</input>
+								</div>
+							</div>
+						</div>
+						<div class='row'>					
+							<div class="form-group col-md-12">
+								<label class="col-md-4 text-right" for="customerPhone">Telefone</label>
+								<div class="col-md-6">
+									<input class="form-control" type="text" id="customerPhone" ng-model="ngo.phone"></input>
+								</div>
+							</div>
+						</div>
+                        <div class='row'>
+                            <div class="form-group col-md-12">
+                                <label class="col-md-4 text-right" for="site">Site</label>
+                                <div class="col-md-6">
+                                    <input class="form-control" placeholder="www.ong.com.br" type="text" id="site" ng-model="ngo.website"></input>
+                                </div>
+                            </div>
+                        </div>
+						<div class='row'>					
+							<div class="form-group col-md-12">
+								<label class="col-md-4 text-right" for="customerPhone">Email</label>
+								<div class="col-md-6">
+									<input class="form-control" type="text" id="customerPhone" ng-model="ngo.email"></input>
+								</div>
+							</div>
+						</div>
+						<div class='row'>					
+							<div class="form-group col-md-12">
+								<label class="col-md-4 text-right" for="customerLocation">Endereço</label>
+								<div class="col-md-6">
+									<input class="form-control" type="text" id="customerLocation" typeahead="add as address.formatted_address for address in 
+										getLocation($viewValue)" ng-model="ngo.location.address" 
+										typeahead-on-select="onUserSelectLocation($item, $model, $label)"></input>
+								</div>
+							</div>
+						</div>
+							
+						<div class='row'>					
+							<div class="form-group col-md-12">
+								<label class="col-md-4 text-right" for="customerStreetNumber">Número</label>
+								<div class="col-md-6">
+									<input class="form-control" type="text" id="customerStreetNumber" ng-model="ngo.location.streetNumber"></input>
+								</div>
+							</div>
+						</div>
+						
+						<div class='row'>					
+							<div class="form-group col-md-12">
+								<label class="col-md-4 text-right" for="customerAddressComplement">Complemento</label>
+								<div class="col-md-6">
+									<input class="form-control" type="text" id="customerAddressComplement" ng-model="ngo.location.addressComplement"></input>
+								</div>
+							</div>
+						</div>
+						
+						<div class='row'>					
+							<div class="form-group col-md-12">
+								<label class="col-md-4 text-right" for="customerNeighborhood">Bairro</label>
+								<div class="col-md-6">
+									<input class="form-control" type="text" id="customerNeighborhood" ng-model="ngo.location.neighborhood"></input>
+								</div>
+							</div>
+						</div>
+						
+						<div class='row'>					
+							<div class="form-group col-md-12">
+								<label class="col-md-4 text-right" for="customerCity">Cidade</label>
+								<div class="col-md-6">
+									<input class="form-control" type="text" id="customerCity" ng-model="ngo.location.city"></input>
+								</div>
+							</div>
+						</div>
+						
+						<div class='row'>					
+							<div class="form-group col-md-12">
+								<label class="col-md-4 text-right" for="customerState">Estado</label>
+								<div class="col-md-6">
+									<input class="form-control" type="text" id="customerState" ng-model="ngo.location.state"></input>
+								</div>
+							</div>
+						</div>
+						
+						<div class='row'>					
+							<div class="form-group col-md-12">
+								<label class="col-md-4 text-right" for="customerCountry">País</label>
+								<div class="col-md-6">
+									<input class="form-control" type="text" id="customerCountry" ng-model="ngo.location.country"></input>
+								</div>
+							</div>
+						</div>
+						
+						<div class='row'>					
+							<div class="form-group col-md-12">
+								<label class="col-md-4 text-right" for="customerZip">CEP</label>
+								<div class="col-md-6">
+									<input class="form-control" type="text" id="customerZip" ng-model="ngo.location.zip"></input>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class='row'>
+				<div class='col-md-12'>
+					<div class='center-block'>
+						<div class='text-center alert alert-danger' role='alert' ng-show='newNgoError'>
+							<strong>Erro: Instituição já cadastrada</strong>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<form>
+				<fieldset>
+					<button type="button" class="btn" ng-click="cancel()">Cancelar</button>
+					<button type="button" class="btn btn-primary" ng-disabled='isCreating' ng-click="insertNewNgo()">Enviar</button>
+				</fieldset>
+			</form>
+		</div>
+	</script>
+	

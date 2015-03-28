@@ -1,0 +1,248 @@
+<!DOCTYPE HTML>
+
+<HTML ng-app='app'>
+
+<HEAD>
+	<meta charset='utf-8'> 
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Mão na Massa Admin</title>
+	
+	<link rel="stylesheet" href="../../site/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../site/css/css.css">
+	<link rel="stylesheet" href="../../site/css/xeditable.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/0.4.9/toaster.min.css" rel="stylesheet" />
+	
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	
+	<script src="//code.angularjs.org/1.2.9/angular.min.js"></script>
+	<script src="//code.angularjs.org/1.2.9/angular-route.min.js"></script>
+	<script src="https://code.angularjs.org/1.2.0/angular-animate.min.js" ></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/0.4.9/toaster.min.js"></script>
+	
+	<script src="/site/js/ui-bootstrap-tpls-0.11.0.min.js"></script>
+	<script src="http://momentjs.com/downloads/moment-with-locales.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/0.8.0/angular-moment.min.js"></script>
+	<script src="/site/js/xeditable.min.js"></script>
+	<script src="/site/js/readmore.js"></script>
+	
+	<script src="/site/js/main.js"></script>
+
+	<script src="/site/js/bootstrap.min.js"></script>
+	
+	<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+</HEAD> 
+
+<BODY>
+	
+	<div class="navbar navbar-default" role="navigation" ng-controller="navBarController">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href='#/index'>Mão na Massa</a>
+			</div>
+			<div class="navbar-collapse-nav">
+				<ul class="nav navbar-nav">
+				  <li ng-class="{active: homeActive}"><a href='' ng-click="go('/index')">Home</a></li>
+				  <li ng-show='user.isAdmin' ng-class="{active: ngo}"><a href='' ng-click="go('/ngos')">Instituições</a></li>
+				  <li ng-show='false' ng-class="{active: causes}"><a href='' ng-click="go('/causes')">Causas</a></li>
+				  <li ng-show='user.isAdmin' ng-class="{active: admin}"><a href='' ng-click="go('/admin')">Admin</a></li>
+				</ul>  
+				
+			<ul class="nav navbar-nav navbar-right">
+				<li class='dropdown'>
+					<a href class='dropdown-toggle' data-toggle='dropdown' >{{user.fullName}} <span class='caret'></span></a>
+				<ul class='dropdown-menu' role='menu'>
+					<li><a href ng-click='changePassword()'>Change Password</a></li>
+					<li class='divider'></li>
+					<li><a ng-click='logout()' href>Logout</a></li>
+				</ul>
+				</li>
+			</ul>
+				
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<toaster-container  toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
+		<div ng-view class="page-view"></div>
+	</div>
+	
+	<!--Index page template-->
+	<script type="text/ng-template" id="Index.html">
+		<div class="pages"  id="Index" >
+			<div class="container">
+				<div class="page-header">
+					<h2>Mão na Massa - CMS<br><small>Bem vindo, {{user.fullName}}</small></h2>
+				</div>
+				<div class="row">
+					<div ng-show='causes.length==0' class='col-md-12'>
+						<div class='center-block'>
+								<h3>Nenhuma causa cadastrada</h3>
+						</div>
+					</div>
+					<div ng-show='causes.length>0' class='col-md-12'>
+						<h2 style='border-bottom: 1px solid #ddd'>Causas</h2><br>
+							<div class='row'>
+								<div class='col-md-12'>
+									<div  class='panel panel-primary' ng-repeat="cause in causes">
+										<div class='panel-heading' >
+											<strong>&nbsp{{cause.title}}    </strong>
+											<div class='pull-right btn-group btn-group-xs'>
+												<button class='btn btn-default' role='button' ng-click="closeCause(cause._id)" ng-show="cause.isOpen?true:false">encerrar</button>
+											</div>
+										</div>
+										<div class='panel-body'>
+											<div class='row' > 
+												<div class='col-md-12' >
+													<h3 style='border-bottom: 1px solid #ddd'>Status: <small>{{cause.status}}</small></h3>
+												</div>
+											</div>
+											<div class='row' > 
+
+												<div class='col-md-5'>
+													<strong>Criada por: </strong>{{cause.creator.firstName+ ' '+cause.creator.lastName}} <strong> em: </strong>{{cause.creationDate | date:'dd/MM/yyyy HH:mm'}}<br>
+													<strong>Número de vagas: </strong>{{cause.maxVolunteers}} <br>
+													<strong>Horário: </strong>{{cause.time}} <br>
+													<strong>Local: </strong>{{cause.place}} <br>
+													
+												</div>
+												<div class='col-md-7'>
+													<p class='well' style="word-wrap: break-word; white-space: pre-wrap;"><strong>Descrição: </strong><br>{{cause.text}}</p>
+												</div>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</script>
+	
+</BODY>
+</HTML>
+
+<script type="text/ng-template" id="newCause.html">
+	<div class="modal-header">
+		<h3 class="modal-Title">Criar Ação</h3>
+	</div>
+	<div class="modal-body">
+		<div class='row'>
+			<div class='col-md-5'>
+				<form role="form" class='form-horizontal'>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="noteType">Título</label>
+						<div class="col-sm-8">
+							<input placeholder='Professor voluntário' class="form-control" id="noteType" ng-model="cause.title" ></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="assignee">Número de Pessoas</label>
+						<div class="col-sm-4">
+							<input type="number" class="form-control" id="assignee" ng-model="cause.maxVolunteers"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="time">Horário</label>
+						<div class="col-sm-8">
+							<input type='text' class="form-control" id="time" ng-model="cause.time" placeholder='Toda quinta as 9:30'></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" for="place">Local</label>
+						<div class="col-sm-8">
+							<input type='text' class="form-control" id="place" ng-model="cause.place" placeholder='Botafogo, Rio de Janeiro'></input>
+						</div>
+					</div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="tags">Tags</label>
+                        <div class="col-sm-8">
+                            <input type='text' class="form-control" id="tags" ng-model="cause.tags" placeholder='Máximo 3, separadas por ","'></input>
+                        </div>
+                    </div>
+
+				</form>
+			</div>
+			<div class='col-md-7' style='border-left:1px solid #ddd'>
+				<div class='row'>
+					<div class='col-md-12'>
+						<strong>Descrição</strong>
+						<form class="form" role="form">
+							<div class="form-group">
+								<textarea cols='77' wrap='hard' style='min-height:400px' class="form-control" id="noteTextField" type="text" ng-model="cause.text"></textarea >
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<form><fieldset>
+			<button type="button" class="btn" ng-click="cancelAddCause()">Cancelar</button>
+			<button type="button" class="btn btn-primary" ng-disabled='creating' ng-click="addCause()">Criar</button>
+		</fieldset></form>
+	</div>
+</script>
+
+<script type="text/ng-template" id="loginConfirmScreen.html">
+	<div class="modal-body">
+		<h3 class="modal-Title text-center">Confirm Logout?</h3><br>
+		<div class="row">
+			<div class='col-md-12'>
+				<form>
+					<div class='form-group'>
+						<button type="button" class="btn" ng-click="cancel()">Cancel</button>
+						<button type="button" class="btn btn-primary" ng-click="logout()">Logout</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="changePasswordScreen.html">
+	<div class="modal-body">
+		<h3 class="modal-Title text-center">Change Password</h3><br>
+		<div class="row">
+			<div class='col-md-12'>
+				<form class='form'>
+					<div class='form-group'>
+						<label for='oldPass' class='control-label'>Senha Antiga</label>
+						<input id='oldPass' class='form-control' ng-model='form.oldPassword' type='password' />
+					</div>
+					<div class='form-group'>
+						<label for='newPass' class='control-label'>Nova Senha</label>
+						<input id='newPass' class='form-control' ng-model='form.newPassword' type='password' />
+					</div>
+					<div class='form-group'>
+						<label for='confirmPass' class='control-label'>Confirmar Senha</label>
+						<input id='confirmPass' class='form-control' ng-model='form.confirmPassword' type='password' />
+					</div>
+				</form>
+				<div ng-show = 'alert.show' class='alert alert-danger'>
+					<strong>Error: </strong>{{alert.message}}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class='modal-footer'>
+		<form class='form'>
+			<div class='form-group'>
+				<button type="button" class="btn" ng-click="cancel()">Cancel</button>
+				<button type="button" class="btn btn-primary" ng-click="save()">Save</button>
+			</div>
+		</form>
+	</div>
+</script>
+
